@@ -55,11 +55,11 @@ class YoutubeDataFetcher(Resource):
         #1
         id = get_youtube_id(url)
         #2
-        encoded_data = get_data_from_youtube(id)
+        (encoded_data, status_code) = get_data_from_youtube(id)
+        if encoded_data is None:
+            abort(status_code)
         #3
         decoded_player_response = decode_yt_data(encoded_data)
-        if encoded_data is None:
-            abort(500)
         #4
         response_data = create_response_from_youtube_data(decoded_player_response)
         return response_data
