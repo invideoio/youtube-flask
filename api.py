@@ -18,7 +18,7 @@ videoModel = api.model('video', {
     'height': fields.Integer
 })
 
-audioModel = api.model('video', {
+audioModel = api.model('audio', {
     'bitrate': fields.Integer,
     'bitrate_display_string': fields.String,
     'size_in_bytes': fields.Integer,
@@ -32,15 +32,16 @@ responseModel = api.model('response', {
     'thumbnail_url': fields.String,
     'duration_seconds': fields.Integer,
     # TODO: fix list error for marshalling
-    # 'video_list': fields.List(videoModel),
-    # 'audio_list': fields.List(audioModel)
+    'video_list': fields.List(fields.Nested(videoModel)),
+    'audio_list': fields.List(fields.Nested(audioModel)),
 })
 
 
-@api.route('/youtube_details')
+@api.route('/youtube_details', endpoint="youtube_details")
+@api.doc(params={'yt_url': 'A Youtube Url'})
 class YoutubeDataFetcher(Resource):
     # TODO: fix swagger doc implementation
-    # @api.marshal_with(responseModel)
+    @api.marshal_with(responseModel)
     def get(self):
         parser = reqparse.RequestParser()
         parser.add_argument('yt_url', type=str)
