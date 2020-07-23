@@ -31,7 +31,6 @@ responseModel = api.model('response', {
     'title': fields.String,
     'thumbnail_url': fields.String,
     'duration_seconds': fields.Integer,
-    # TODO: fix list error for marshalling
     'video_list': fields.List(fields.Nested(videoModel)),
     'audio_list': fields.List(fields.Nested(audioModel)),
 })
@@ -40,7 +39,6 @@ responseModel = api.model('response', {
 @api.route('/youtube_details', endpoint="youtube_details")
 @api.doc(params={'yt_url': 'A Youtube Url'})
 class YoutubeDataFetcher(Resource):
-    # TODO: fix swagger doc implementation
     @api.marshal_with(responseModel)
     def get(self):
         parser = reqparse.RequestParser()
